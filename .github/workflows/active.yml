@@ -1,0 +1,27 @@
+name: Update date.txt
+
+on:
+  schedule:
+    - cron: '0 */12 * * *' # runs every two hours
+
+jobs:
+  update-date:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Update date
+        run: echo "$(date)" > date.txt
+
+      - name: Commit and push if it changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          string=$(git status --porcelain)
+          if [[ -n "$string" ]]; then
+            git commit -m "Automatically update date"
+            git push
+          fi
