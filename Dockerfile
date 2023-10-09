@@ -60,3 +60,6 @@ CMD if [ -n "$PROXY_URL" ]; then \
     else \
         node server.js; \
     fi
+
+
+USER 10001
